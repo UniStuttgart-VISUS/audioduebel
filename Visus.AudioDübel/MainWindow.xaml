@@ -1,0 +1,62 @@
+﻿<Window x:Class="Visus.AudioDübel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Visus.AudioDübel"
+        mc:Ignorable="d"
+        xmlns:p="clr-namespace:Visus.AudioDübel.Properties"
+        Title="{x:Static p:Resources.AppTitle}" Height="450" Width="800">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="{x:Static p:Resources.MenuFile}">
+                <MenuItem Header="{x:Static p:Resources.MenuExit}" Click="OnExit" />
+            </MenuItem>
+        </Menu>
+        <ToolBarPanel DockPanel.Dock="Top">
+            <ToolBar>
+                <TextBox x:Name="_tbAddress" Text="192.168.214.102" Width="100"></TextBox>
+                <Button Content="{x:Static p:Resources.ButtonConnect}" Click="OnConnect" ></Button>
+            </ToolBar>
+        </ToolBarPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Column="0" Grid.Row="0" Text="{x:Static p:Resources.LabelInputs}" Margin="5"></TextBlock>
+            <TextBlock Grid.Column="1" Grid.Row="0" Text="{x:Static p:Resources.LabelOutputs}" Margin="5"></TextBlock>
+            <ListBox x:Name="_lbInputs" Grid.Column="0" Grid.Row="1">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel.ToolTip>
+                                <TextBlock Text="{Binding Tooltip}" TextWrapping="Wrap" />
+                            </StackPanel.ToolTip>
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                            <TextBlock Text="{Binding ChannelPair}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ListBox x:Name="_lbOutputs" Grid.Column="1" Grid.Row="1">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel.ToolTip>
+                                <TextBlock Text="{Binding Tooltip}" TextWrapping="Wrap" />
+                            </StackPanel.ToolTip>
+                            <TextBlock Text="{Binding Name}" FontWeight="Bold" />
+                            <TextBlock Text="{Binding Source}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+    </DockPanel>
+</Window>
