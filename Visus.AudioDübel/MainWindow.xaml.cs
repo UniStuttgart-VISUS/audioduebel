@@ -5,7 +5,9 @@
 // <author>Christoph Müller</author>
 
 using BMDSwitcherAPI;
+using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 
 
 namespace Visus.AudioDübel {
@@ -52,33 +54,7 @@ namespace Visus.AudioDübel {
                     name);
             }
 
-            //try {
-            //    var it = this._mixer!.CreateIterator<IBMDSwitcherAudioInputIterator>();
-            //    if (it is null) {
-            //        MessageBox.Show(Properties.Resources.ErrorIterator,
-            //            null,
-            //            MessageBoxButton.OK,
-            //            MessageBoxImage.Error);
-            //        return;
-            //    }
-
-            //    it.Next(out var input);
-            //    while (input is not null) {
-            //        input.GetAudioInputId(out var id);
-            //        input.GetType(out var type);
-            //        input.GetCurrentExternalPortType(out var portType);
-            //        input.GetMixOption(out var mixOption);
-            //        this._lbInputs.Items.Add($"{id}: {type}, {portType}, {mixOption}");
-            //        it.Next(out input);
-            //    }
-            //} catch (Exception ex) {
-            //    MessageBox.Show(ex.Message,
-            //        null,
-            //        MessageBoxButton.OK,
-            //        MessageBoxImage.Error);
-            //    return;
-            //}
-
+            // Get all routable inputs.
             try {
                 var it = this._switcher.CreateIterator<IBMDSwitcherAudioRoutingSourceIterator>();
                 if (it is null) {
@@ -105,6 +81,7 @@ namespace Visus.AudioDübel {
                 return;
             }
 
+            // Get all routable outputs.
             try {
                 var it = this._switcher.CreateIterator<IBMDSwitcherAudioRoutingOutputIterator>();
                 if (it is null) {
@@ -131,6 +108,29 @@ namespace Visus.AudioDübel {
                 return;
             }
 
+            // TODO: how do we get the mixer?
+            //try {
+            //    this._mixer = (IBMDSwitcherAudioMixer) this._switcher;
+            //    var it = this._mixer.CreateIterator<IBMDSwitcherAudioInputIterator>();
+            //    if (it is not null) {
+
+            //        it.Next(out var input);
+            //        while (input is not null) {
+            //            input.GetAudioInputId(out var id);
+            //            input.GetType(out var type);
+            //            input.GetCurrentExternalPortType(out var portType);
+            //            input.GetMixOption(out var mixOption);
+            //            this._lbInputs.Items.Add($"{id}: {type}, {portType}, {mixOption}");
+            //            it.Next(out input);
+            //        }
+            //    }
+            //} catch (Exception ex) {
+            //    MessageBox.Show(ex.Message,
+            //        null,
+            //        MessageBoxButton.OK,
+            //        MessageBoxImage.Error);
+            //    return;
+            //}
         }
 
         /// <summary>
@@ -140,6 +140,46 @@ namespace Visus.AudioDübel {
         /// <param name="e"></param>
         private void OnExit(object sender, RoutedEventArgs e) {
             Application.Current.Shutdown();
+        }
+
+        /// <summary>
+        /// Highlights the outputs when the selected input changes.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnInputSelectionChanged(object sender, SelectionChangedEventArgs e) {
+            Debug.Assert(sender == this._lbInputs);
+            var source = this._lbInputs.SelectedItem as SourceViewModel;
+            if (source is not null) {
+                var outputs = this._lbOutputs.Items
+                    .Cast<OutputViewModel>()
+                    .Where(o => o.Source == source.ID);
+                this._lbOutputs.SelectedItems.Clear();
+                foreach (var output in outputs) {
+                    this._lbOutputs.SelectedItems.Add(output);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Highlights the selected source when an output is selected.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnOutputSelectionChanged(object sender,
+                SelectionChangedEventArgs e) {
+            // That does not make sense, because we would be unable to connect anything at all.
+            //Debug.Assert(sender == this._lbOutputs);
+            //var output = this._lbInputs.SelectedItems
+            //    .Cast<OutputViewModel>()
+            //    .SingleOrDefault();
+
+            //if (output is not null) {
+            //    var source = this._lbInputs.Items
+            //        .Cast<SourceViewModel>()
+            //        .Where(s => s.ID == output.Source);
+            //    this._lbInputs.SelectedItem = source;
+            //}
         }
         #endregion
 

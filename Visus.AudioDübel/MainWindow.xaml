@@ -30,7 +30,7 @@
             </Grid.RowDefinitions>
             <TextBlock Grid.Column="0" Grid.Row="0" Text="{x:Static p:Resources.LabelInputs}" Margin="5"></TextBlock>
             <TextBlock Grid.Column="1" Grid.Row="0" Text="{x:Static p:Resources.LabelOutputs}" Margin="5"></TextBlock>
-            <ListBox x:Name="_lbInputs" Grid.Column="0" Grid.Row="1">
+            <ListBox x:Name="_lbInputs" Grid.Column="0" Grid.Row="1" SelectionMode="Single" SelectionChanged="OnInputSelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
@@ -38,12 +38,12 @@
                                 <TextBlock Text="{Binding Tooltip}" TextWrapping="Wrap" />
                             </StackPanel.ToolTip>
                             <TextBlock Text="{Binding Name}" FontWeight="Bold" />
-                            <TextBlock Text="{Binding ChannelPair}" />
+                            <TextBlock><Run Text="{Binding ID, Mode=OneWay}" /><Run Text=", " /><Run Text="{Binding ChannelPair, Mode=OneWay}" /><Run Text=", " /><Run Text="{Binding ExternalPortType, Mode=OneWay}" /><Run Text=", " /><Run Text="{Binding InternalPortType, Mode=OneWay}" /></TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <ListBox x:Name="_lbOutputs" Grid.Column="1" Grid.Row="1">
+            <ListBox x:Name="_lbOutputs" Grid.Column="1" Grid.Row="1" SelectionMode="Multiple" SelectionChanged="OnOutputSelectionChanged">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical">
@@ -51,7 +51,7 @@
                                 <TextBlock Text="{Binding Tooltip}" TextWrapping="Wrap" />
                             </StackPanel.ToolTip>
                             <TextBlock Text="{Binding Name}" FontWeight="Bold" />
-                            <TextBlock Text="{Binding Source, StringFormat=X}" />
+                            <TextBlock><Run Text="{Binding ChannelPair, Mode=OneWay}" /><Run Text=", " /><Run Text="{Binding ExternalPortType, Mode=OneWay}" /><Run Text=", " /><Run Text="{Binding InternalPortType, Mode=OneWay}" /><Run Text=", " /><Run Text="{Binding Source, Mode=OneWay}" /></TextBlock>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

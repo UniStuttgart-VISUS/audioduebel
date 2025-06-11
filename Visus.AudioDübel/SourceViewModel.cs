@@ -32,9 +32,9 @@ namespace Visus.AudioDübel {
             }
         }
 
-        public long ID {
+        public uint ID {
             get {
-                this._source.GetAudioInputId(out var retval);
+                this._source.GetId(out var retval);
                 return retval;
             }
         }
