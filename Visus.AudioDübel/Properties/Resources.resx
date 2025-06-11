@@ -150,4 +150,10 @@
   <data name="Source" xml:space="preserve">
     <value>Quelle</value>
   </data>
+  <data name="TitleMixer" xml:space="preserve">
+    <value>Mixer</value>
+  </data>
+  <data name="TitleRouting" xml:space="preserve">
+    <value>Routing</value>
+  </data>
 </root>

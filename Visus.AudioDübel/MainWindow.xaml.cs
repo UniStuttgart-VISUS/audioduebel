@@ -39,6 +39,8 @@ namespace Visus.AudioDübel {
                 this._switcherDiscovery.ConnectTo(this._tbAddress.Text,
                     out this._switcher,
                     out reason);
+                this._fairlight = this._switcher as IBMDSwitcherFairlightAudioMixer;
+                this._mixer = this._switcher as IBMDSwitcherAudioMixer;
             } catch {
                 MessageBox.Show($"Failed to connect to switcher: {reason}",
                     Properties.Resources.ErrorConnection,
@@ -108,29 +110,47 @@ namespace Visus.AudioDübel {
                 return;
             }
 
-            // TODO: how do we get the mixer?
-            //try {
-            //    this._mixer = (IBMDSwitcherAudioMixer) this._switcher;
-            //    var it = this._mixer.CreateIterator<IBMDSwitcherAudioInputIterator>();
-            //    if (it is not null) {
+            if (this._fairlight is not null) {
+                var it = this._fairlight.CreateIterator<IBMDSwitcherFairlightAudioInputIterator>();
+                if (it is null) {
+                    return;
+                }
 
-            //        it.Next(out var input);
-            //        while (input is not null) {
-            //            input.GetAudioInputId(out var id);
-            //            input.GetType(out var type);
-            //            input.GetCurrentExternalPortType(out var portType);
-            //            input.GetMixOption(out var mixOption);
-            //            this._lbInputs.Items.Add($"{id}: {type}, {portType}, {mixOption}");
-            //            it.Next(out input);
-            //        }
-            //    }
-            //} catch (Exception ex) {
-            //    MessageBox.Show(ex.Message,
-            //        null,
-            //        MessageBoxButton.OK,
-            //        MessageBoxImage.Error);
-            //    return;
-            //}
+                it.Next(out var input);
+                while (input is not null) {
+                    this._lbMixIn.Items.Add(new FairlightInputViewModel(input));
+
+                    var jt = input.CreateIterator<IBMDSwitcherFairlightAudioSourceIterator>();
+                    jt.Next(out var source);
+                    while (source is not null) {
+                        this._lbMixIn.Items.Add(new FairlightSourceViewModel(source));
+                        jt.Next(out source);
+                    }
+
+                    it.Next(out input);
+                }
+            }
+
+            if (this._fairlight is not null) {
+                var it = this._fairlight.CreateIterator<IBMDSwitcherFairlightAudioAuxOutputIterator>();
+                if (it is null) {
+                    return;
+                }
+
+                it.Next(out var output);
+                while (output is not null) {
+                    this._lbMixIn.Items.Add(new FairlightAuxOutputViewModel(output));
+
+                    var jt = output.CreateIterator<IBMDSwitcherFairlightAudioAuxOutputInputIterator>();
+                    jt.Next(out var input);
+                    while (input is not null) {
+                        this._lbMixIn.Items.Add(new FairlightAuxInputViewModel(input));
+                        jt.Next(out input);
+                    }
+
+                    it.Next(out output);
+                }
+            }
         }
 
         /// <summary>
@@ -184,6 +204,7 @@ namespace Visus.AudioDübel {
         #endregion
 
         #region Private fields
+        private IBMDSwitcherFairlightAudioMixer? _fairlight;
         private IBMDSwitcherAudioMixer? _mixer;
         private IBMDSwitcher? _switcher;
         private readonly IBMDSwitcherDiscovery _switcherDiscovery = new CBMDSwitcherDiscovery();

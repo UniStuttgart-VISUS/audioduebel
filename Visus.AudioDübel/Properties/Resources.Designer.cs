@@ -158,5 +158,23 @@ namespace Visus.AudioDübel.Properties {
                 return ResourceManager.GetString("Source", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mixer.
+        /// </summary>
+        public static string TitleMixer {
+            get {
+                return ResourceManager.GetString("TitleMixer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Routing.
+        /// </summary>
+        public static string TitleRouting {
+            get {
+                return ResourceManager.GetString("TitleRouting", resourceCulture);
+            }
+        }
     }
 }
