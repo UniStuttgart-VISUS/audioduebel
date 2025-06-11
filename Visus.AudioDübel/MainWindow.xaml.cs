@@ -1,16 +1,12 @@
-﻿using BMDSwitcherAPI;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿// <copyright file="MainWindow.xaml.cs" company="Visualisierungsinstitut der Universität Stuttgart">
+// Copyright © 2025 Visualisierungsinstitut der Universität Stuttgart.
+// Licensed under the MIT licence. See LICENCE file for details.
+// </copyright>
+// <author>Christoph Müller</author>
+
+using BMDSwitcherAPI;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace Visus.AudioDübel {
 

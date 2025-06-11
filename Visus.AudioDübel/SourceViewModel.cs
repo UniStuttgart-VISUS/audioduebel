@@ -66,7 +66,7 @@ namespace Visus.AudioDübel {
         public string Tooltip {
             get {
                 var sb = new StringBuilder();
-                sb.AppendLine(this.ID.ToString());
+                sb.Append("0x").AppendLine(this.ID.ToString("X"));
                 sb.Append(this.Name).Append(" (").Append(this.IsDefaultName).AppendLine(")");
                 sb.AppendLine(this.ChannelPair.ToString());
                 sb.AppendLine(this.ExternalPortType.ToString());

@@ -51,7 +51,7 @@
                                 <TextBlock Text="{Binding Tooltip}" TextWrapping="Wrap" />
                             </StackPanel.ToolTip>
                             <TextBlock Text="{Binding Name}" FontWeight="Bold" />
-                            <TextBlock Text="{Binding Source}" />
+                            <TextBlock Text="{Binding Source, StringFormat=X}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
