@@ -57,6 +57,10 @@ namespace Visus.AudioDübel {
             }
 
             // Get all routable inputs.
+            this._routerView.Router = new RouterViewModel(
+                    this._switcher.CreateIterator<IBMDSwitcherAudioRoutingOutputIterator>()!,
+                    this._switcher.CreateIterator<IBMDSwitcherAudioRoutingSourceIterator>()!);
+
             try {
                 var it = this._switcher.CreateIterator<IBMDSwitcherAudioRoutingSourceIterator>();
                 if (it is null) {
@@ -118,13 +122,11 @@ namespace Visus.AudioDübel {
 
                 it.Next(out var input);
                 while (input is not null) {
-                    this._lbMixIn.Items.Add(new FairlightInputViewModel(input));
+                    var vm = new FairlightInputViewModel(input);
+                    this._lbMixIn.Items.Add(vm);
 
-                    var jt = input.CreateIterator<IBMDSwitcherFairlightAudioSourceIterator>();
-                    jt.Next(out var source);
-                    while (source is not null) {
-                        this._lbMixIn.Items.Add(new FairlightSourceViewModel(source));
-                        jt.Next(out source);
+                    foreach (var source in vm.Sources) {
+                        this._lbMixIn.Items.Add(source);
                     }
 
                     it.Next(out input);
@@ -139,18 +141,29 @@ namespace Visus.AudioDübel {
 
                 it.Next(out var output);
                 while (output is not null) {
-                    this._lbMixIn.Items.Add(new FairlightAuxOutputViewModel(output));
+                    var vm = new FairlightAuxOutputViewModel(output);
+                    this._lbMixIn.Items.Add(vm);
 
-                    var jt = output.CreateIterator<IBMDSwitcherFairlightAudioAuxOutputInputIterator>();
-                    jt.Next(out var input);
-                    while (input is not null) {
-                        this._lbMixIn.Items.Add(new FairlightAuxInputViewModel(input));
-                        jt.Next(out input);
+                    foreach (var input in vm.Inputs) {
+                        this._lbMixIn.Items.Add(input);
                     }
 
                     it.Next(out output);
                 }
             }
+
+            //if (this._fairlight is not null) {
+            //    var it = this._fairlight.CreateIterator<IBMDSwitcherFairlightAudioAuxOutputIterator>();
+            //    if (it is null) {
+            //        return;
+            //    }
+
+            //    it.Next(out var output);
+            //    while (output is not null) {
+            //        //this._lbMixIn.Items.Add(new FairlightMonitorOutputViewModel(output));
+            //        it.Next(out output);
+            //    }
+            //}
         }
 
         /// <summary>

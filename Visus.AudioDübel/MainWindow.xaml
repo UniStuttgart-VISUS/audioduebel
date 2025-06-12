@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Visus.AudioDübel"
+        xmlns:l="clr-namespace:Visus.AudioDübel"
         mc:Ignorable="d"
         xmlns:p="clr-namespace:Visus.AudioDübel.Properties"
         Title="{x:Static p:Resources.AppTitle}" Height="450" Width="800">
@@ -20,6 +20,9 @@
             </ToolBar>
         </ToolBarPanel>
         <TabControl>
+            <TabItem Header="{x:Static p:Resources.TitleRouting}">
+                <l:RouterView x:Name="_routerView" />
+            </TabItem>
             <TabItem Header="{x:Static p:Resources.TitleRouting}">
                 <Grid>
                     <Grid.ColumnDefinitions>

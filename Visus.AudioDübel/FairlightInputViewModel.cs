@@ -17,6 +17,16 @@ namespace Visus.AudioDübel {
             IBMDSwitcherFairlightAudioInput input) {
 
         #region Public properties
+        public _BMDSwitcherFairlightAudioInputConfiguration Configuration {
+            get {
+                this._input.GetConfiguration(out var retval);
+                return retval;
+            }
+            set {
+                this._input.SetConfiguration(value);
+            }
+        }
+
         public long ID {
             get {
                 this._input.GetId(out var retval);
@@ -30,10 +40,25 @@ namespace Visus.AudioDübel {
                 return retval;
             }
         }
+
+        public IEnumerable<FairlightSourceViewModel> Sources {
+            get {
+                var it = this._input.CreateIterator<IBMDSwitcherFairlightAudioSourceIterator>();
+                if (it is null) {
+                    yield break;
+                }
+
+                it.Next(out var source);
+                while (source is not null) {
+                    yield return new FairlightSourceViewModel(source);
+                    it.Next(out source);
+                }
+            }
+        }
         #endregion
 
         #region Public methods
-        public override string ToString() => $"{this.Type}: {this.ID}";
+        public override string ToString() => $"{this.Type}: {this.ID}, {this.Configuration}";
         #endregion
 
         #region Private fields

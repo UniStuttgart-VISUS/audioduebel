@@ -14,10 +14,12 @@ namespace Visus.AudioDübel {
     /// A view model for routing sink.
     /// </summary>
     /// <param name="output"></param>
-    internal sealed class OutputViewModel(
+    public sealed class OutputViewModel(
             IBMDSwitcherAudioRoutingOutput output) {
 
         #region Public properties
+        public int Column { get; init; } = 0;
+
         public _BMDSwitcherAudioChannelPair ChannelPair {
             get {
                 this._output.GetChannelPair(out var retval);
@@ -62,6 +64,7 @@ namespace Visus.AudioDübel {
                 this._output.SetName(value);
             }
         }
+        public int Row { get; init; } = 0;
 
         public uint Source {
             get {

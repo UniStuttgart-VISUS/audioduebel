@@ -14,7 +14,7 @@ namespace Visus.AudioDübel {
     /// A view model for routing source.
     /// </summary>
     /// <param name="source"></param>
-    internal sealed class SourceViewModel(
+    public sealed class SourceViewModel(
             IBMDSwitcherAudioRoutingSource source) {
 
         #region Public properties
@@ -24,6 +24,8 @@ namespace Visus.AudioDübel {
                 return retval;
             }
         }
+
+        public int Column { get; init; } = 0;
 
         public _BMDSwitcherExternalPortType ExternalPortType {
             get {
@@ -62,6 +64,8 @@ namespace Visus.AudioDübel {
                 this._source.SetName(value);
             }
         }
+
+        public int Row { get; init; } = 0;
 
         public string Tooltip {
             get {

@@ -23,6 +23,21 @@ namespace Visus.AudioDübel {
                 return retval;
             }
         }
+
+        public IEnumerable<FairlightAuxInputViewModel> Inputs {
+            get {
+                var it = this._output.CreateIterator<IBMDSwitcherFairlightAudioAuxOutputInputIterator>();
+                if (it is null) {
+                    yield break;
+                }
+
+                it.Next(out var input);
+                while (input is not null) {
+                    yield return new FairlightAuxInputViewModel(input);
+                    it.Next(out input);
+                }
+            }
+        }
         #endregion
 
         #region Private fields
