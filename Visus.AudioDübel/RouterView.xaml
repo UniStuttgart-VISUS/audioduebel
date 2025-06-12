@@ -10,6 +10,13 @@
         <DataTemplate DataType="{x:Type l:RouteViewModel}">
             <RadioButton Grid.Row="{Binding Row, Mode=OneWay}" Grid.Column="{Binding Column}" IsChecked="{Binding IsSelected}" GroupName="{Binding Group}" />
         </DataTemplate>
+        <DataTemplate DataType="{x:Type l:OutputViewModel}">
+            <TextBlock Text="{Binding Name}">
+                <TextBlock.LayoutTransform>
+                    <RotateTransform Angle="-90" />
+                </TextBlock.LayoutTransform>
+            </TextBlock>
+        </DataTemplate>
     </UserControl.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
         <ItemsControl ItemsSource="{Binding Cells}">
